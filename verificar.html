@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Verificación de Permiso</title>
+</head>
+
+<body>
+
+<h2>Permiso verificado</h2>
+
+<p id="codigo"></p>
+
+<script>
+
+let params = new URLSearchParams(window.location.search)
+
+let id = params.get("id")
+
+document.getElementById("codigo").innerHTML = "Código de permiso: " + id
+
+</script>
+
+</body>
+</html>
