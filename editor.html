@@ -6,6 +6,7 @@
   <title>Generador de Permisos</title>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
@@ -217,14 +218,32 @@
         ? document.getElementById("resultadoLink").href
         : "https://municipalidadsmt.github.io/Permiso";
 
-     new QRCode(qr, {
-  text: linkPermiso,
-  width: 180,
-  height: 180,
-  colorDark: "#000000",
-  colorLight: "#ffffff",
-  correctLevel: QRCode.CorrectLevel.H
+     const qrCode = new QRCodeStyling({
+  width: 160,
+  height: 160,
+  data: linkPermiso,
+  margin: 0,
+
+  dotsOptions: {
+    color: "#000000",
+    type: "square"
+  },
+
+  cornersSquareOptions: {
+    type: "extra-rounded"
+  },
+
+  cornersDotOptions: {
+    type: "square"
+  },
+
+  backgroundOptions: {
+    color: "#ffffff"
+  }
 });
+
+qr.innerHTML = "";
+qrCode.append(qr);
 
       const element = document.getElementById("permisoPDF");
       element.style.visibility = "visible";
