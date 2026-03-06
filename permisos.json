@@ -17,5 +17,24 @@
     "horaini": "14:00:00",
     "horafin": "17:30:00",
     "notas": "SIN OBSERVACIONES"
+  },
+  "156": {
+    "numero": "156",
+    "fecha": "06/03/2026",
+    "permiso": "CARGA Y DESCARGA",
+    "solicitante": "TUCUMAN FLETES",
+    "empresa": "FLETES TUCUMAN",
+    "domicilio": "SALTA 200",
+    "operaciones": "1",
+    "dominio": "APK 256",
+    "vehiculo": "MERCEDES BENZ 710",
+    "mano": "IZQUIERDA",
+    "peso": "3000 HASTA 6000 KG",
+    "zona": "I",
+    "desde": "06/03/2026",
+    "hasta": "06/03/2026",
+    "horaini": "21:00:00",
+    "horafin": "23:59:59",
+    "notas": ""
   }
 }
