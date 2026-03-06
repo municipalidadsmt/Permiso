@@ -36,5 +36,24 @@
     "horaini": "21:00:00",
     "horafin": "23:59:59",
     "notas": ""
+  },
+  "987": {
+    "numero": "987",
+    "fecha": "05/03/2026",
+    "permiso": "CIRCULACION",
+    "solicitante": "FLETES TUCUMAN",
+    "empresa": "FLETES TUCUMAN",
+    "domicilio": "CORRIENTES 400 - MONTEAGUDO 300",
+    "operaciones": "2",
+    "dominio": "APK 256",
+    "vehiculo": "HOC 038",
+    "mano": "DERECHA",
+    "peso": "3000 KG HASTA 6000 KG",
+    "zona": "II",
+    "desde": "07/03/2026",
+    "hasta": "07/03/2026",
+    "horaini": "14:00:00",
+    "horafin": "17:00:00",
+    "notas": ""
   }
 }
