@@ -22,15 +22,10 @@ padding:25px;
 border-radius:8px;
 }
 
-h2{
-text-align:center;
-}
-
 input{
 width:100%;
 padding:10px;
-margin-bottom:12px;
-font-size:16px;
+margin-bottom:10px;
 }
 
 button{
@@ -60,9 +55,21 @@ word-break:break-all;
 <h2>Generador de Permisos</h2>
 
 <input id="numero" placeholder="Nro de solicitud">
-<input id="fecha" placeholder="Fecha">
+<input id="fecha" placeholder="Fecha de solicitud">
 <input id="solicitante" placeholder="Solicitante">
 <input id="empresa" placeholder="Empresa">
+<input id="domicilio" placeholder="Domicilio">
+<input id="operaciones" placeholder="Cantidad de operaciones">
+<input id="dominio" placeholder="Dominio">
+<input id="vehiculo" placeholder="Vehiculo">
+<input id="mano" placeholder="Mano">
+<input id="peso" placeholder="Peso">
+<input id="zona" placeholder="Zona">
+<input id="desde" placeholder="Fecha desde">
+<input id="hasta" placeholder="Fecha hasta">
+<input id="horaini" placeholder="Hora desde">
+<input id="horafin" placeholder="Hora hasta">
+<input id="notas" placeholder="Observaciones">
 
 <button onclick="generar()">Generar Permiso</button>
 
@@ -78,12 +85,37 @@ let numero = document.getElementById("numero").value;
 let fecha = document.getElementById("fecha").value;
 let solicitante = document.getElementById("solicitante").value;
 let empresa = document.getElementById("empresa").value;
+let domicilio = document.getElementById("domicilio").value;
+let operaciones = document.getElementById("operaciones").value;
+let dominio = document.getElementById("dominio").value;
+let vehiculo = document.getElementById("vehiculo").value;
+let mano = document.getElementById("mano").value;
+let peso = document.getElementById("peso").value;
+let zona = document.getElementById("zona").value;
+let desde = document.getElementById("desde").value;
+let hasta = document.getElementById("hasta").value;
+let horaini = document.getElementById("horaini").value;
+let horafin = document.getElementById("horafin").value;
+let notas = document.getElementById("notas").value;
 
-let link = "https://municipalidadsmt.github.io/Permiso" +
-"?numero=" + numero +
-"&fecha=" + fecha +
-"&solicitante=" + solicitante +
-"&empresa=" + empresa;
+let link =
+"https://municipalidadsmt.github.io/Permiso?" +
+"numero="+numero+
+"&fecha="+fecha+
+"&solicitante="+solicitante+
+"&empresa="+empresa+
+"&domicilio="+domicilio+
+"&operaciones="+operaciones+
+"&dominio="+dominio+
+"&vehiculo="+vehiculo+
+"&mano="+mano+
+"&peso="+peso+
+"&zona="+zona+
+"&desde="+desde+
+"&hasta="+hasta+
+"&horaini="+horaini+
+"&horafin="+horafin+
+"&notas="+notas;
 
 document.getElementById("resultado").innerHTML =
 "<b>Link del permiso:</b><br><a href='"+link+"' target='_blank'>"+link+"</a>";
