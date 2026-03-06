@@ -154,25 +154,7 @@ margin:0,
       let horafin = document.getElementById("horafin").value;
       let notas = document.getElementById("notas").value;
 
-      let link =
-        "https://municipalidadsmt.github.io/Permiso?" +
-        "numero=" + encodeURIComponent(numero) +
-        "&fecha=" + encodeURIComponent(fecha) +
-        "&permiso=" + encodeURIComponent(permiso) +
-        "&solicitante=" + encodeURIComponent(solicitante) +
-        "&empresa=" + encodeURIComponent(empresa) +
-        "&domicilio=" + encodeURIComponent(domicilio) +
-        "&operaciones=" + encodeURIComponent(operaciones) +
-        "&dominio=" + encodeURIComponent(dominio) +
-        "&vehiculo=" + encodeURIComponent(vehiculo) +
-        "&mano=" + encodeURIComponent(mano) +
-        "&peso=" + encodeURIComponent(peso) +
-        "&zona=" + encodeURIComponent(zona) +
-        "&desde=" + encodeURIComponent(desde) +
-        "&hasta=" + encodeURIComponent(hasta) +
-        "&horaini=" + encodeURIComponent(horaini) +
-        "&horafin=" + encodeURIComponent(horafin) +
-        "&notas=" + encodeURIComponent(notas);
+     let link = "https://municipalidadsmt.github.io/Permiso?id=" + encodeURIComponent(numero);
 
       document.getElementById("resultado").innerHTML =
         "<b>Link del permiso:</b><br><a id='resultadoLink' href='" + link + "' target='_blank'>" + link + "</a>";
