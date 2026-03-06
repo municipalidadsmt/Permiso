@@ -73,6 +73,7 @@
 
     <button onclick="generar()">Generar Permiso</button>
     <button onclick="descargarPDF()">Descargar PDF</button>
+    <button onclick="agregarPermisoJSON()">Agregar a permisos.json</button>
 
     <input id="numero" placeholder="Nro de solicitud">
     <input id="fecha" placeholder="Fecha de solicitud">
@@ -97,31 +98,24 @@
   </div>
 
   <script>
-    function crearQrOficial(contenedor, data, size = 180) {
+    function crearQrOficial(contenedor, data, size = 190) {
       contenedor.innerHTML = "";
 
       const qrCode = new QRCodeStyling({
-
-width: size,
-height: size,
-data: data,
-
-qrOptions:{
-typeNumber:4,
-errorCorrectionLevel:"H"
-},
-
-margin:0,
-        qrOptions:{
+        width: size,
+        height: size,
+        data: data,
+        margin: 0,
+        qrOptions: {
           errorCorrectionLevel: "H"
         },
-        dotsOptions:{
+        dotsOptions: {
           color: "#000000",
           type: "square"
         },
         cornersSquareOptions: {
           color: "#000000",
-          type: "square"
+          type: "extra-rounded"
         },
         cornersDotOptions: {
           color: "#000000",
@@ -136,25 +130,14 @@ margin:0,
     }
 
     function generar() {
-      let numero = document.getElementById("numero").value;
-      let fecha = document.getElementById("fecha").value;
-      let permiso = document.getElementById("permiso").value;
-      let solicitante = document.getElementById("solicitante").value;
-      let empresa = document.getElementById("empresa").value;
-      let domicilio = document.getElementById("domicilio").value;
-      let operaciones = document.getElementById("operaciones").value;
-      let dominio = document.getElementById("dominio").value;
-      let vehiculo = document.getElementById("vehiculo").value;
-      let mano = document.getElementById("mano").value;
-      let peso = document.getElementById("peso").value;
-      let zona = document.getElementById("zona").value;
-      let desde = document.getElementById("desde").value;
-      let hasta = document.getElementById("hasta").value;
-      let horaini = document.getElementById("horaini").value;
-      let horafin = document.getElementById("horafin").value;
-      let notas = document.getElementById("notas").value;
+      const numero = document.getElementById("numero").value.trim();
 
-     let link = "https://municipalidadsmt.github.io/Permiso?id=" + encodeURIComponent(numero);
+      if (!numero) {
+        alert("Debes ingresar el número de solicitud.");
+        return;
+      }
+
+      const link = "https://municipalidadsmt.github.io/Permiso?id=" + encodeURIComponent(numero);
 
       document.getElementById("resultado").innerHTML =
         "<b>Link del permiso:</b><br><a id='resultadoLink' href='" + link + "' target='_blank'>" + link + "</a>";
@@ -219,10 +202,10 @@ margin:0,
 
       const linkPermiso = document.getElementById("resultadoLink")
         ? document.getElementById("resultadoLink").href
-        : "https://municipalidadsmt.github.io/Permiso";
+        : "https://municipalidadsmt.github.io/Permiso?id=" + encodeURIComponent(document.getElementById("numero").value || "");
 
       const qrPdf = document.getElementById("qrPDF");
-      crearQrOficial(qrPdf, linkPermiso, 240);
+      crearQrOficial(qrPdf, linkPermiso, 190);
 
       const element = document.getElementById("permisoPDF");
       element.style.visibility = "visible";
@@ -254,6 +237,60 @@ margin:0,
       pdf.save("permiso.pdf");
 
       element.style.visibility = "hidden";
+    }
+
+    async function agregarPermisoJSON() {
+      const numero = document.getElementById("numero").value.trim();
+
+      if (!numero) {
+        alert("Debes ingresar el número de solicitud.");
+        return;
+      }
+
+      const nuevoPermiso = {
+        numero: document.getElementById("numero").value || "",
+        fecha: document.getElementById("fecha").value || "",
+        permiso: document.getElementById("permiso").value || "",
+        solicitante: document.getElementById("solicitante").value || "",
+        empresa: document.getElementById("empresa").value || "",
+        domicilio: document.getElementById("domicilio").value || "",
+        operaciones: document.getElementById("operaciones").value || "",
+        dominio: document.getElementById("dominio").value || "",
+        vehiculo: document.getElementById("vehiculo").value || "",
+        mano: document.getElementById("mano").value || "",
+        peso: document.getElementById("peso").value || "",
+        zona: document.getElementById("zona").value || "",
+        desde: document.getElementById("desde").value || "",
+        hasta: document.getElementById("hasta").value || "",
+        horaini: document.getElementById("horaini").value || "",
+        horafin: document.getElementById("horafin").value || "",
+        notas: document.getElementById("notas").value || ""
+      };
+
+      try {
+        const res = await fetch("permisos.json");
+        const permisos = await res.json();
+
+        permisos[numero] = nuevoPermiso;
+
+        const contenido = JSON.stringify(permisos, null, 2);
+        const blob = new Blob([contenido], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "permisos.json";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
+
+        alert("Se descargó permisos.json actualizado. Ahora súbelo a GitHub y reemplaza el archivo anterior.");
+      } catch (error) {
+        console.error(error);
+        alert("No se pudo cargar permisos.json");
+      }
     }
   </script>
 
@@ -327,7 +364,7 @@ margin:0,
     <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px;">
       <div id="qrPDF" style="
         background:#ffffff;
-        padding:5px;
+        padding:0;
         display:inline-block;
       "></div>
 
