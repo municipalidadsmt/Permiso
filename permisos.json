@@ -37,6 +37,25 @@
     "horafin": "23:59:59",
     "notas": ""
   },
+  "564": {
+    "numero": "564",
+    "fecha": "06/03/26",
+    "permiso": "CIRCULACION",
+    "solicitante": "FLETES TUCUMAN",
+    "empresa": "MUDARTE YA",
+    "domicilio": "MARCOS PAZ 200",
+    "operaciones": "1",
+    "dominio": "APK 256",
+    "vehiculo": "MERCEDES BENZ 710",
+    "mano": "CIRCULACION",
+    "peso": "3000 KG HASTA 6000 KG",
+    "zona": "I",
+    "desde": "07/03/2026",
+    "hasta": "07/03/2026",
+    "horaini": "14:00:00",
+    "horafin": "17:00:00",
+    "notas": ""
+  },
   "987": {
     "numero": "987",
     "fecha": "05/03/2026",
