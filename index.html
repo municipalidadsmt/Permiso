@@ -225,30 +225,40 @@ PERMISO VIGENTE
 </div>
   
 <script>
-
 const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
 
-document.getElementById("numero").textContent = params.get("numero");
-document.getElementById("fecha").textContent = params.get("fecha");
-document.getElementById("solicitante").textContent = params.get("solicitante");
-document.getElementById("empresa").textContent = params.get("empresa");
-document.getElementById("domicilio").textContent = params.get("domicilio");
-document.getElementById("operaciones").textContent = params.get("operaciones");
-document.getElementById("dominio").textContent = params.get("dominio");
-document.getElementById("vehiculo").textContent = params.get("vehiculo");
-document.getElementById("mano").textContent = params.get("mano");
-document.getElementById("peso").textContent = params.get("peso");
-document.getElementById("zona").textContent = params.get("zona");
-document.getElementById("desde").textContent = params.get("desde");
-document.getElementById("hasta").textContent = params.get("hasta");
-document.getElementById("horaini").textContent = params.get("horaini");
-document.getElementById("horafin").textContent = params.get("horafin");
-document.getElementById("notas").textContent = params.get("notas");
+if(id){
+  fetch("../permisos.json")
+    .then(res => res.json())
+    .then(data => {
+      const permiso = data[id];
 
+      if(permiso){
+        document.getElementById("numero").textContent = permiso.numero || "";
+        document.getElementById("fecha").textContent = permiso.fecha || "";
+        document.getElementById("solicitante").textContent = permiso.solicitante || "";
+        document.getElementById("empresa").textContent = permiso.empresa || "";
+        document.getElementById("domicilio").textContent = permiso.domicilio || "";
+        document.getElementById("operaciones").textContent = permiso.operaciones || "";
+        document.getElementById("dominio").textContent = permiso.dominio || "";
+        document.getElementById("vehiculo").textContent = permiso.vehiculo || "";
+        document.getElementById("mano").textContent = permiso.mano || "";
+        document.getElementById("peso").textContent = permiso.peso || "";
+        document.getElementById("zona").textContent = permiso.zona || "";
+        document.getElementById("desde").textContent = permiso.desde || "";
+        document.getElementById("hasta").textContent = permiso.hasta || "";
+        document.getElementById("horaini").textContent = permiso.horaini || "";
+        document.getElementById("horafin").textContent = permiso.horafin || "";
+        document.getElementById("notas").textContent = permiso.notas || "";
+      }
+    });
+}
 </script>
   
 </body>
 </html>
+
 
 
 
