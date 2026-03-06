@@ -101,14 +101,21 @@
       contenedor.innerHTML = "";
 
       const qrCode = new QRCodeStyling({
-        width: size,
-        height: size,
-        data: data,
-        margin: 0,
-        qrOptions: {
+
+width: size,
+height: size,
+data: data,
+
+qrOptions:{
+typeNumber:4,
+errorCorrectionLevel:"H"
+},
+
+margin:0,
+        qrOptions:{
           errorCorrectionLevel: "H"
         },
-        dotsOptions: {
+        dotsOptions:{
           color: "#000000",
           type: "square"
         },
