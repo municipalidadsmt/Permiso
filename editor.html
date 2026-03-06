@@ -226,7 +226,9 @@
             scale: 2,
             useCORS: true,
             scrollX: 0,
-            scrollY: 0
+            scrollY: -window.scrollY,
+            windowWidth: 794,
+            windowHeight: 1123
           },
           jsPDF: {
             unit: "px",
@@ -241,23 +243,23 @@
   </script>
 
   <div id="permisoPDF" style="
-    width: 794px;
-    height: 1123px;
-    background: #ffffff;
-    color: #111;
-    padding: 10px 18px 20px 18px;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: -1;
-    visibility: hidden;
-    overflow: hidden;
+    width:794px;
+    height:1123px;
+    background:#ffffff;
+    color:#111;
+    padding:0 18px 20px 18px;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+    position:fixed;
+    top:0;
+    left:0;
+    visibility:hidden;
+    z-index:-1;
+    overflow:hidden;
   ">
 
-    <div style="display:flex; align-items:flex-start; gap:14px;">
-      <img src="logo.png" style="width:58px; height:auto;">
+    <div style="display:flex; align-items:flex-start; gap:14px; margin-top:0; padding-top:0;">
+      <img src="logo.png" style="width:58px; height:auto; margin-top:0;">
 
       <div style="flex:1;">
         <div style="font-size:22px; font-weight:400; line-height:1.1;">
@@ -294,8 +296,7 @@
       <div>Adicional&nbsp;&nbsp;&nbsp;&nbsp;: <span id="pdfAdicional"></span></div>
 
       <div style="margin-top:14px;">
-        Observaciones: El recurrente se hace responsable en lo civil y penal por los daños ocasionados contra terceros,
-      en el horario y termino que se detalla en el presente permiso. <span id="pdfNotas"></span>
+        Observaciones: <span id="pdfNotas"></span>
       </div>
     </div>
 
