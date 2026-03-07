@@ -225,72 +225,61 @@ PERMISO VIGENTE
 </div>
   
 <script>
-
 const params = new URLSearchParams(window.location.search);
 const id = params.get("id");
 
-if(id){
+if (id) {
+  fetch("https://opensheet.elk.sh/1LsOvtEIXDtfla23bXbtosWkPceO_dGa5Os4FCnnZOvA/1")
+    .then(res => res.json())
+    .then(data => {
+      const permiso = data.find(p => p.id === id);
 
-fetch("permisos.json")
-.then(res => res.json())
-.then(data => {
+      if (permiso) {
+        document.getElementById("numero").textContent = permiso.numero || "";
+        document.getElementById("fecha").textContent = permiso.fecha || "";
+        document.getElementById("solicitante").textContent = permiso.solicitante || "";
+        document.getElementById("empresa").textContent = permiso.empresa || "";
+        document.getElementById("domicilio").textContent = permiso.domicilio || "";
+        document.getElementById("operaciones").textContent = permiso.operaciones || "";
+        document.getElementById("dominio").textContent = permiso.dominio || "";
+        document.getElementById("vehiculo").textContent = permiso.vehiculo || "";
+        document.getElementById("mano").textContent = permiso.mano || "";
+        document.getElementById("peso").textContent = permiso.peso || "";
+        document.getElementById("zona").textContent = permiso.zona || "";
+        document.getElementById("desde").textContent = permiso.desde || "";
+        document.getElementById("hasta").textContent = permiso.hasta || "";
+        document.getElementById("horaini").textContent = permiso.horaini || "";
+        document.getElementById("horafin").textContent = permiso.horafin || "";
+        document.getElementById("notas").textContent = permiso.notas || "";
 
-const permiso = data[id];
+        const estado = document.getElementById("estadoPermiso");
+        if (estado && permiso.hasta) {
+          const partes = permiso.hasta.split("/");
+          const vencimiento = new Date(partes[2], partes[1] - 1, partes[0]);
+          const hoy = new Date();
 
-if(permiso){
-
-document.getElementById("numero").textContent = permiso.numero || "";
-document.getElementById("fecha").textContent = permiso.fecha || "";
-document.getElementById("solicitante").textContent = permiso.solicitante || "";
-document.getElementById("empresa").textContent = permiso.empresa || "";
-document.getElementById("domicilio").textContent = permiso.domicilio || "";
-document.getElementById("operaciones").textContent = permiso.operaciones || "";
-document.getElementById("dominio").textContent = permiso.dominio || "";
-document.getElementById("vehiculo").textContent = permiso.vehiculo || "";
-document.getElementById("mano").textContent = permiso.mano || "";
-document.getElementById("peso").textContent = permiso.peso || "";
-document.getElementById("zona").textContent = permiso.zona || "";
-document.getElementById("desde").textContent = permiso.desde || "";
-document.getElementById("hasta").textContent = permiso.hasta || "";
-// verificar estado del permiso
-
-const estado = document.getElementById("estadoPermiso");
-
-const hoy = new Date();
-
-const fechaHasta = permiso.hasta.split("/");
-
-const vencimiento = new Date(
-fechaHasta[2],
-fechaHasta[1] - 1,
-fechaHasta[0]
-);
-
-if (hoy <= vencimiento) {
-
-estado.textContent = "PERMISO VIGENTE";
-estado.style.background = "#2e7d32";
-
-} else {
-
-estado.textContent = "PERMISO VENCIDO";
-estado.style.background = "#c62828";
-
+          if (hoy <= vencimiento) {
+            estado.textContent = "PERMISO VIGENTE";
+            estado.style.background = "#2e7d32";
+          } else {
+            estado.textContent = "PERMISO VENCIDO";
+            estado.style.background = "#c62828";
+          }
+        }
+      } else {
+        alert("Permiso no encontrado");
+      }
+    })
+    .catch(error => {
+      console.error(error);
+      alert("No se pudo leer la planilla");
+    });
 }
-document.getElementById("horaini").textContent = permiso.horaini || "";
-document.getElementById("horafin").textContent = permiso.horafin || "";
-document.getElementById("notas").textContent = permiso.notas || "";
-
-}
-
-});
-
-}
-
 </script>
   
 </body>
 </html>
+
 
 
 
