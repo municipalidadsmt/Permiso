@@ -269,6 +269,9 @@ const urlScript = "https://script.google.com/macros/s/AKfycbzYhNsAjaYI4eYTjDgXrA
 
 fetch(urlScript,{
 method:"POST",
+headers:{
+"Content-Type":"text/plain;charset=utf-8"
+},
 body:JSON.stringify(data)
 })
 .then(res => res.text())
