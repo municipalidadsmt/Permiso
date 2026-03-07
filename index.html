@@ -252,20 +252,34 @@ if (id) {
         document.getElementById("horafin").textContent = permiso.horafin || "";
         document.getElementById("notas").textContent = permiso.notas || "";
 
-        const estado = document.getElementById("estadoPermiso");
-        if (estado && permiso.hasta) {
-          const partes = permiso.hasta.split("/");
-          const vencimiento = new Date(partes[2], partes[1] - 1, partes[0]);
-          const hoy = new Date();
+       const estado = document.getElementById("estadoPermiso");
 
-          if (hoy <= vencimiento) {
-            estado.textContent = "PERMISO VIGENTE";
-            estado.style.background = "#2e7d32";
-          } else {
-            estado.textContent = "PERMISO VENCIDO";
-            estado.style.background = "#c62828";
-          }
-        }
+if (estado && permiso.hasta) {
+
+  const partes = permiso.hasta.split("/");
+
+  const vencimiento = new Date(
+    partes[2],
+    partes[1] - 1,
+    partes[0],
+    23, 59, 59
+  );
+
+  const ahora = new Date();
+
+  if (ahora <= vencimiento) {
+
+    estado.textContent = "PERMISO VIGENTE";
+    estado.style.background = "#2e7d32";
+
+  } else {
+
+    estado.textContent = "PERMISO VENCIDO";
+    estado.style.background = "#c62828";
+
+  }
+
+}
       } else {
         alert("Permiso no encontrado");
       }
@@ -279,6 +293,7 @@ if (id) {
   
 </body>
 </html>
+
 
 
 
