@@ -74,6 +74,7 @@
     <button onclick="generar()">Generar Permiso</button>
     <button onclick="descargarPDF()">Descargar PDF</button>
     <button onclick="agregarPermisoJSON()">Agregar a permisos.json</button>
+    <button onclick="guardarEnPlanilla()">Guardar permiso</button>
 
     <input id="numero" placeholder="Nro de solicitud">
     <input id="fecha" placeholder="Fecha de solicitud">
@@ -239,6 +240,51 @@
       element.style.visibility = "hidden";
     }
 
+    async function guardarEnPlanilla(){
+
+const data = {
+
+id: document.getElementById("numero").value,
+numero: document.getElementById("numero").value,
+fecha: document.getElementById("fecha").value,
+permiso: document.getElementById("permiso").value,
+solicitante: document.getElementById("solicitante").value,
+empresa: document.getElementById("empresa").value,
+domicilio: document.getElementById("domicilio").value,
+operaciones: document.getElementById("operaciones").value,
+dominio: document.getElementById("dominio").value,
+vehiculo: document.getElementById("vehiculo").value,
+mano: document.getElementById("mano").value,
+peso: document.getElementById("peso").value,
+zona: document.getElementById("zona").value,
+desde: document.getElementById("desde").value,
+hasta: document.getElementById("hasta").value,
+horaini: document.getElementById("horaini").value,
+horafin: document.getElementById("horafin").value,
+notas: document.getElementById("notas").value
+
+};
+
+const urlScript = "PEGA_AQUI_LA_URL_DE_TU_APPS_SCRIPT";
+
+fetch(urlScript,{
+method:"POST",
+body:JSON.stringify(data)
+})
+.then(res => res.text())
+.then(res => {
+
+alert("Permiso guardado en la planilla");
+
+})
+.catch(err => {
+
+alert("Error al guardar");
+
+});
+
+}
+    
     async function agregarPermisoJSON() {
       const numero = document.getElementById("numero").value.trim();
 
