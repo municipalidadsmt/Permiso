@@ -134,7 +134,7 @@ font-size:22px;
 VALIDACION DE PERMISOS - VIA PUBLICA
 </div>
 
-<div class="estado">
+<div class="estado" id="estadoPermiso">
 PERMISO VIGENTE
 </div>
 
@@ -252,6 +252,31 @@ document.getElementById("peso").textContent = permiso.peso || "";
 document.getElementById("zona").textContent = permiso.zona || "";
 document.getElementById("desde").textContent = permiso.desde || "";
 document.getElementById("hasta").textContent = permiso.hasta || "";
+// verificar estado del permiso
+
+const estado = document.getElementById("estadoPermiso");
+
+const hoy = new Date();
+
+const fechaHasta = permiso.hasta.split("/");
+
+const vencimiento = new Date(
+fechaHasta[2],
+fechaHasta[1] - 1,
+fechaHasta[0]
+);
+
+if (hoy <= vencimiento) {
+
+estado.textContent = "PERMISO VIGENTE";
+estado.style.background = "#2e7d32";
+
+} else {
+
+estado.textContent = "PERMISO VENCIDO";
+estado.style.background = "#c62828";
+
+}
 document.getElementById("horaini").textContent = permiso.horaini || "";
 document.getElementById("horafin").textContent = permiso.horafin || "";
 document.getElementById("notas").textContent = permiso.notas || "";
@@ -266,6 +291,7 @@ document.getElementById("notas").textContent = permiso.notas || "";
   
 </body>
 </html>
+
 
 
 
