@@ -1,428 +1,244 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generador de Permisos</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generador de Permisos</title>
 
-  <script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/qr-code-styling@1.5.0/lib/qr-code-styling.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
-  <style>
-    body{
-      font-family: Arial, sans-serif;
-      background: #f2f2f2;
-      padding: 30px;
-      margin: 0;
-    }
+<style>
 
-    .container{
-      max-width: 700px;
-      margin: auto;
-      background: white;
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-    }
+body{
+font-family: Arial, sans-serif;
+background:#f2f2f2;
+padding:30px;
+margin:0;
+}
 
-    h2{
-      text-align: center;
-      margin-top: 0;
-    }
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:25px;
+border-radius:8px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+}
 
-    input{
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      font-size: 16px;
-      box-sizing: border-box;
-    }
+h2{
+text-align:center;
+margin-top:0;
+}
 
-    button{
-      width: 100%;
-      padding: 12px;
-      background: #1976d2;
-      color: white;
-      border: none;
-      font-size: 16px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 8px;
-    }
+input{
+width:100%;
+padding:10px;
+margin-bottom:10px;
+font-size:16px;
+box-sizing:border-box;
+}
 
-    button:hover{
-      background: #125ea8;
-    }
+button{
+width:100%;
+padding:12px;
+background:#1976d2;
+color:white;
+border:none;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+margin-top:8px;
+}
 
-    .resultado{
-      margin-top: 20px;
-      word-break: break-all;
-    }
+button:hover{
+background:#125ea8;
+}
 
-    #qrcode{
-      margin-top: 20px;
-      text-align: center;
-    }
-  </style>
+.resultado{
+margin-top:20px;
+word-break:break-all;
+}
+
+#qrcode{
+margin-top:20px;
+text-align:center;
+}
+
+</style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h2>Generador de Permisos</h2>
+<!-- LOGIN -->
 
-    <button onclick="generar()">Generar Permiso</button>
-    <button onclick="descargarPDF()">Descargar PDF</button>
-    <button onclick="agregarPermisoJSON()">Agregar a permisos.json</button>
-    <button onclick="guardarEnPlanilla()">Guardar permiso</button>
+<div id="loginBox" class="container">
 
-    <input id="numero" placeholder="Nro de solicitud">
-    <input id="fecha" placeholder="Fecha de solicitud">
-    <input id="permiso" placeholder="Permiso">
-    <input id="solicitante" placeholder="Solicitante">
-    <input id="empresa" placeholder="Empresa">
-    <input id="domicilio" placeholder="Domicilio">
-    <input id="operaciones" placeholder="Cantidad de operaciones">
-    <input id="dominio" placeholder="Dominio">
-    <input id="vehiculo" placeholder="Vehículo">
-    <input id="mano" placeholder="Mano">
-    <input id="peso" placeholder="Peso">
-    <input id="zona" placeholder="Zona">
-    <input id="desde" placeholder="Fecha desde">
-    <input id="hasta" placeholder="Fecha hasta">
-    <input id="horaini" placeholder="Hora desde">
-    <input id="horafin" placeholder="Hora hasta">
-    <input id="notas" placeholder="Observaciones">
+<h2>Acceso al generador</h2>
 
-    <div class="resultado" id="resultado"></div>
-    <div id="qrcode"></div>
-  </div>
+<input type="password" id="clave" placeholder="Ingrese contraseña">
 
-  <script>
-    function crearQrOficial(contenedor, data, size = 190) {
-      contenedor.innerHTML = "";
+<button onclick="verificarClave()">Entrar</button>
 
-      const qrCode = new QRCodeStyling({
-        width: size,
-        height: size,
-        data: data,
-        margin: 0,
-        qrOptions: {
-          errorCorrectionLevel: "H"
-        },
-        dotsOptions: {
-          color: "#000000",
-          type: "square"
-        },
-        cornersSquareOptions: {
-          color: "#000000",
-          type: "square"
-        },
-        cornersDotOptions: {
-          color: "#000000",
-          type: "square"
-        },
-        backgroundOptions: {
-          color: "#ffffff"
-        }
-      });
+</div>
 
-      qrCode.append(contenedor);
-    }
+<!-- GENERADOR -->
 
-    function generar() {
-      const numero = document.getElementById("numero").value.trim();
+<div id="panelGenerador" class="container" style="display:none;">
 
-      if (!numero) {
-        alert("Debes ingresar el número de solicitud.");
-        return;
-      }
+<h2>Generador de Permisos</h2>
 
-      const link = "https://municipalidadsmt.github.io/Permiso?id=" + encodeURIComponent(numero);
+<button onclick="generar()">Generar Permiso</button>
+<button onclick="descargarPDF()">Descargar PDF</button>
+<button onclick="guardarEnPlanilla()">Guardar permiso</button>
 
-      document.getElementById("resultado").innerHTML =
-        "<b>Link del permiso:</b><br><a id='resultadoLink' href='" + link + "' target='_blank'>" + link + "</a>";
+<input id="numero" placeholder="Nro de solicitud">
+<input id="fecha" placeholder="Fecha de solicitud">
+<input id="permiso" placeholder="Permiso">
+<input id="solicitante" placeholder="Solicitante">
+<input id="empresa" placeholder="Empresa">
+<input id="domicilio" placeholder="Domicilio">
+<input id="operaciones" placeholder="Cantidad de operaciones">
+<input id="dominio" placeholder="Dominio">
+<input id="vehiculo" placeholder="Vehículo">
+<input id="mano" placeholder="Mano">
+<input id="peso" placeholder="Peso">
+<input id="zona" placeholder="Zona">
+<input id="desde" placeholder="Fecha desde">
+<input id="hasta" placeholder="Fecha hasta">
+<input id="horaini" placeholder="Hora desde">
+<input id="horafin" placeholder="Hora hasta">
+<input id="notas" placeholder="Observaciones">
 
-      const qrPreview = document.getElementById("qrcode");
-      crearQrOficial(qrPreview, link, 190);
-    }
+<div class="resultado" id="resultado"></div>
 
-    async function descargarPDF() {
-      document.getElementById("pdfSolicitud").innerText =
-        document.getElementById("numero").value || "";
+<div id="qrcode"></div>
 
-      document.getElementById("pdfFecha").innerText =
-        document.getElementById("fecha").value || "";
+</div>
 
-      document.getElementById("pdfPermiso").innerText =
-        document.getElementById("permiso").value || "";
+<script>
 
-      document.getElementById("pdfSolicitante").innerText =
-        document.getElementById("solicitante").value || "";
+function verificarClave(){
 
-      document.getElementById("pdfEmpresa").innerText =
-        document.getElementById("empresa").value || "";
+const claveCorrecta = "vivalapepa";
+const claveIngresada = document.getElementById("clave").value;
 
-      document.getElementById("pdfOperaciones").innerText =
-        document.getElementById("operaciones").value || "";
+if(claveIngresada === claveCorrecta){
 
-      document.getElementById("pdfDomicilio").innerText =
-        document.getElementById("domicilio").value || "";
+sessionStorage.setItem("acceso","si");
 
-      document.getElementById("pdfDominio").innerText =
-        document.getElementById("dominio").value || "";
+document.getElementById("loginBox").style.display="none";
+document.getElementById("panelGenerador").style.display="block";
 
-      document.getElementById("pdfVehiculo").innerText =
-        document.getElementById("vehiculo").value || "";
+}else{
 
-      document.getElementById("pdfMano").innerText =
-        document.getElementById("mano").value || "";
+alert("Contraseña incorrecta");
 
-      document.getElementById("pdfPeso").innerText =
-        document.getElementById("peso").value || "";
+}
 
-      document.getElementById("pdfZona").innerText =
-        document.getElementById("zona").value || "";
+}
 
-      document.getElementById("pdfDesde").innerText =
-        document.getElementById("desde").value || "";
+window.onload = function(){
 
-      document.getElementById("pdfHasta").innerText =
-        document.getElementById("hasta").value || "";
+if(sessionStorage.getItem("acceso")==="si"){
 
-      document.getElementById("pdfHoraIni").innerText =
-        document.getElementById("horaini").value || "";
+document.getElementById("loginBox").style.display="none";
+document.getElementById("panelGenerador").style.display="block";
 
-      document.getElementById("pdfHoraFin").innerText =
-        document.getElementById("horafin").value || "";
+}
 
-      document.getElementById("pdfAdicional").innerText = "";
+}
 
-      document.getElementById("pdfNotas").innerText =
-        document.getElementById("notas").value || "";
+function crearQrOficial(contenedor,data,size=190){
 
-      const linkPermiso = document.getElementById("resultadoLink")
-        ? document.getElementById("resultadoLink").href
-        : "https://municipalidadsmt.github.io/Permiso?id=" + encodeURIComponent(document.getElementById("numero").value || "");
+contenedor.innerHTML="";
 
-      const qrPdf = document.getElementById("qrPDF");
-      crearQrOficial(qrPdf, linkPermiso, 190);
-
-      const element = document.getElementById("permisoPDF");
-      element.style.visibility = "visible";
-
-      await new Promise(resolve => setTimeout(resolve, 700));
-
-      const canvas = await html2canvas(element, {
-        scale: 3,
-        useCORS: true,
-        backgroundColor: "#ffffff",
-        width: 794,
-        height: 1123,
-        windowWidth: 794,
-        windowHeight: 1123,
-        scrollX: 0,
-        scrollY: 0
-      });
-
-      const imgData = canvas.toDataURL("image/jpeg", 1.0);
-
-      const { jsPDF } = window.jspdf;
-      const pdf = new jsPDF({
-        orientation: "portrait",
-        unit: "px",
-        format: [794, 1123]
-      });
-
-      pdf.addImage(imgData, "JPEG", 0, 0, 794, 1123);
-      pdf.save("permiso.pdf");
-
-      element.style.visibility = "hidden";
-    }
-
-    async function guardarEnPlanilla(){
-
-const data = {
-id: document.getElementById("numero").value,
-numero: document.getElementById("numero").value,
-fecha: document.getElementById("fecha").value,
-permiso: document.getElementById("permiso").value,
-solicitante: document.getElementById("solicitante").value,
-empresa: document.getElementById("empresa").value,
-domicilio: document.getElementById("domicilio").value,
-operaciones: document.getElementById("operaciones").value,
-dominio: document.getElementById("dominio").value,
-vehiculo: document.getElementById("vehiculo").value,
-mano: document.getElementById("mano").value,
-peso: document.getElementById("peso").value,
-zona: document.getElementById("zona").value,
-desde: document.getElementById("desde").value,
-hasta: document.getElementById("hasta").value,
-horaini: document.getElementById("horaini").value,
-horafin: document.getElementById("horafin").value,
-notas: document.getElementById("notas").value
-};
-
-const urlScript = "https://script.google.com/macros/s/AKfycbzYhNsAjaYI4eYTjDgXrAIZOhSNGvhDz8gQL9b-x6hK3dB_4Tva3KCgNb-7WC_vgTz-/exec";
-
-try {
-
-const res = await fetch(urlScript,{
-method:"POST",
-headers:{
-"Content-Type":"text/plain;charset=utf-8"
-},
-body:JSON.stringify(data)
+const qrCode = new QRCodeStyling({
+width:size,
+height:size,
+data:data,
+margin:0,
+qrOptions:{ errorCorrectionLevel:"H" },
+dotsOptions:{ color:"#000",type:"square" },
+cornersSquareOptions:{ color:"#000",type:"square" },
+cornersDotOptions:{ color:"#000",type:"square" },
+backgroundOptions:{ color:"#ffffff" }
 });
 
-const texto = await res.text();
-console.log("RESPUESTA APPS SCRIPT:", texto);
-
-alert("Respuesta del servidor: " + texto);
-
-} catch(err) {
-
-console.error("ERROR COMPLETO:", err);
-alert("Error al guardar: " + err);
+qrCode.append(contenedor);
 
 }
 
+function generar(){
+
+const numero = document.getElementById("numero").value.trim();
+
+if(!numero){
+
+alert("Debes ingresar el número de solicitud.");
+return;
+
 }
-    async function agregarPermisoJSON() {
-      const numero = document.getElementById("numero").value.trim();
 
-      if (!numero) {
-        alert("Debes ingresar el número de solicitud.");
-        return;
-      }
+const link="https://municipalidadsmt.github.io/Permiso?id="+encodeURIComponent(numero);
 
-      const nuevoPermiso = {
-        numero: document.getElementById("numero").value || "",
-        fecha: document.getElementById("fecha").value || "",
-        permiso: document.getElementById("permiso").value || "",
-        solicitante: document.getElementById("solicitante").value || "",
-        empresa: document.getElementById("empresa").value || "",
-        domicilio: document.getElementById("domicilio").value || "",
-        operaciones: document.getElementById("operaciones").value || "",
-        dominio: document.getElementById("dominio").value || "",
-        vehiculo: document.getElementById("vehiculo").value || "",
-        mano: document.getElementById("mano").value || "",
-        peso: document.getElementById("peso").value || "",
-        zona: document.getElementById("zona").value || "",
-        desde: document.getElementById("desde").value || "",
-        hasta: document.getElementById("hasta").value || "",
-        horaini: document.getElementById("horaini").value || "",
-        horafin: document.getElementById("horafin").value || "",
-        notas: document.getElementById("notas").value || ""
-      };
+document.getElementById("resultado").innerHTML=
+"<b>Link del permiso:</b><br><a id='resultadoLink' href='"+link+"' target='_blank'>"+link+"</a>";
 
-      try {
-        const res = await fetch("permisos.json");
-        const permisos = await res.json();
+const qrPreview=document.getElementById("qrcode");
 
-        permisos[numero] = nuevoPermiso;
+crearQrOficial(qrPreview,link,190);
 
-        const contenido = JSON.stringify(permisos, null, 2);
-        const blob = new Blob([contenido], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
+}
 
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "permisos.json";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+async function guardarEnPlanilla(){
 
-        URL.revokeObjectURL(url);
+const data={
 
-        alert("Se descargó permisos.json actualizado. Ahora súbelo a GitHub y reemplaza el archivo anterior.");
-      } catch (error) {
-        console.error(error);
-        alert("No se pudo cargar permisos.json");
-      }
-    }
-  </script>
+id:document.getElementById("numero").value,
+numero:document.getElementById("numero").value,
+fecha:document.getElementById("fecha").value,
+permiso:document.getElementById("permiso").value,
+solicitante:document.getElementById("solicitante").value,
+empresa:document.getElementById("empresa").value,
+domicilio:document.getElementById("domicilio").value,
+operaciones:document.getElementById("operaciones").value,
+dominio:document.getElementById("dominio").value,
+vehiculo:document.getElementById("vehiculo").value,
+mano:document.getElementById("mano").value,
+peso:document.getElementById("peso").value,
+zona:document.getElementById("zona").value,
+desde:document.getElementById("desde").value,
+hasta:document.getElementById("hasta").value,
+horaini:document.getElementById("horaini").value,
+horafin:document.getElementById("horafin").value,
+notas:document.getElementById("notas").value
 
-  <div id="permisoPDF" style="
-    width:794px;
-    height:1123px;
-    background:#ffffff;
-    color:#111;
-    padding:0 18px 20px 18px;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-    position:fixed;
-    top:0;
-    left:0;
-    visibility:hidden;
-    z-index:-1;
-    overflow:hidden;
-  ">
+};
 
-    <div style="display:flex; align-items:flex-start; gap:14px; margin-top:0; padding-top:0;">
-      <img src="logo.png" style="width:58px; height:auto; margin-top:0;">
+const urlScript="https://script.google.com/macros/s/AKfycbzYhNsAjaYI4eYTjDgXrAIZOhSNGvhDz8gQL9b-x6hK3dB_4Tva3KCgNb-7WC_vgTz-/exec";
 
-      <div style="flex:1;">
-        <div style="font-size:22px; font-weight:400; line-height:1.1;">
-          Municipalidad de San Miguel de Tucumán
-        </div>
-        <div style="font-size:14px; margin-top:4px;">
-          Dirección de Vía Pública - Permisos
-        </div>
-      </div>
-    </div>
+fetch(urlScript,{
+method:"POST",
+headers:{ "Content-Type":"text/plain;charset=utf-8" },
+body:JSON.stringify(data)
+})
+.then(res=>res.text())
+.then(res=>{
 
-    <div style="border-top:2px solid #444; margin-top:8px;"></div>
+alert("Permiso guardado en la planilla");
 
-    <div style="display:flex; justify-content:space-between; font-size:14px; font-weight:bold; margin-top:8px;">
-      <div>Nro. de Solicitud: <span id="pdfSolicitud"></span></div>
-      <div>Fecha de Solicitud: <span id="pdfFecha"></span></div>
-    </div>
+})
+.catch(err=>{
 
-    <div style="border-top:1px solid #444; margin-top:6px; margin-bottom:10px;"></div>
+alert("Error al guardar");
 
-    <div style="font-size:14px; line-height:1.45;">
-      <div>Permiso : <span id="pdfPermiso"></span></div>
-      <div>Solicitante : <span id="pdfSolicitante"></span></div>
-      <div>Empresa : <span id="pdfEmpresa"></span></div>
-      <div>Cant. Oper. : <span id="pdfOperaciones"></span></div>
-      <div>Domicilio : <span id="pdfDomicilio"></span></div>
-      <div>Dominio : <span id="pdfDominio"></span></div>
-      <div>Vehiculo : <span id="pdfVehiculo"></span></div>
-      <div>Mano : <span id="pdfMano"></span></div>
-      <div>Peso : <span id="pdfPeso"></span></div>
-      <div>Zona : <span id="pdfZona"></span></div>
-      <div>F. Desde : <span id="pdfDesde"></span> - F. Hasta : <span id="pdfHasta"></span></div>
-      <div>Hrs. Desde : <span id="pdfHoraIni"></span> - Hrs. Hasta : <span id="pdfHoraFin"></span></div>
-      <div>Adicional : <span id="pdfAdicional"></span></div>
+});
 
-      <div style="margin-top:14px;">
-        Observaciones: EL RECURRENTE DEBERA ADOPTAR LAS MAXIMAS PRECAUCIONES PARA EVITAR ANORMALIDADES EN EL TRANSITO EN GRAL.
-        <span id="pdfNotas"></span>
-      </div>
-    </div>
+}
 
-    <div style="border-top:1px solid #444; margin-top:18px; padding-top:8px; font-size:13px; font-weight:bold; line-height:1.3;">
-      Importe: Prohibido estacionar en ochava, garage, parada de omnibus, taxis y/o espacios reservados.
-      El recurrente se hace responsable en lo civil y penal por los daños ocasionados contra terceros,
-      en el horario y termino que se detalla en el presente permiso.
-    </div>
-
-    <div style="border-top:1px solid #444; margin-top:8px;"></div>
-
-    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px;">
-      <div id="qrPDF" style="
-        background:#ffffff;
-        padding:0;
-        display:inline-block;
-      "></div>
-
-      <div style="text-align:center; width:240px;">
-        <img src="firma.png" style="width:200px; display:block; margin:0 auto 2px auto;">
-      </div>
-    </div>
-
-  </div>
+</script>
 
 </body>
 </html>
