@@ -66,14 +66,29 @@
     }
   </style>
 </head>
+
 <body>
 
-  <div class="container">
-    <h2>Generador de Permisos</h2>
+<!-- LOGIN -->
+
+<div id="loginBox" class="container">
+
+<h2>Ups!algo salio mal, intente nuevamente mas tarde</h2>
+
+<input type="password" id="clave" placeholder="">
+
+<button onclick="verificarClave()">INTENTAR NUEVAMENTE</button>
+
+</div>
+
+<!-- GENERADOR -->
+
+<div id="panelGenerador" class="container" style="display:none;">
+
+<h2>Generador de Permisos</h2>
 
     <button onclick="generar()">Generar Permiso</button>
     <button onclick="descargarPDF()">Descargar PDF</button>
-    <button onclick="agregarPermisoJSON()">Agregar a permisos.json</button>
     <button onclick="guardarEnPlanilla()">Guardar permiso</button>
 
     <input id="numero" placeholder="Nro de solicitud">
@@ -99,6 +114,38 @@
   </div>
 
   <script>
+    
+    function verificarClave(){
+
+const claveCorrecta = "vivalapepa";
+const claveIngresada = document.getElementById("clave").value;
+
+if(claveIngresada === claveCorrecta){
+
+sessionStorage.setItem("acceso","si");
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("panelGenerador").style.display="block";
+
+}else{
+
+window.location.href = "https://cidituc.smt.gob.ar/";
+
+}
+
+}
+
+window.onload = function(){
+
+if(sessionStorage.getItem("acceso")==="si"){
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("panelGenerador").style.display="block";
+
+}
+
+}
+
     function crearQrOficial(contenedor, data, size = 190) {
       contenedor.innerHTML = "";
 
