@@ -228,9 +228,11 @@ document.getElementById("panelGenerador").style.display="block";
     }
 
     async function descargarPDF() {
-      document.getElementById("pdfSolicitud").innerText =
-        document.getElementById("numero").value || "";
+      const numeroSolicitud = document.getElementById("numero").value || "";
+const numeroFormateado = numeroSolicitud.padStart(10, "0");
 
+document.getElementById("pdfSolicitud").innerText = numeroFormateado;
+      
       document.getElementById("pdfFecha").innerText =
         document.getElementById("fecha").value || "";
 
